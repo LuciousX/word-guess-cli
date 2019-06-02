@@ -1,7 +1,7 @@
 var Word = require("./word.js");
 var inquirer = require("inquire");
 
-var letterArray = "abcdefghijklmnopqrstuvwxyz";
+var arrayLetters = /[^a-zA-Z]/;
 
 var UnitedStates = [ 
 
@@ -69,7 +69,7 @@ var correctLetters = [];
 
 var guessesLeft = 10;
 
-function theLogic() {
+function runLogic() {
 	if(requiredWord) {
 		var randomIndex = Math.floor(Math.random() * UnitedStates.length);
 		var randomWord = UnitedStates[randomIndex]; 
@@ -89,15 +89,15 @@ function theLogic() {
 			name: "user input"
 		}
 		]).then(function(input) {
-			if(!letterArray.includes(input.userinput) || input.userinput.length > 1) {
+			if(!arrayLetters.includes(input.userinput) || input.userinput.length > 1) {
 				console.log("\nPlease try again\n");
-				theLogic();
+				runLogic();
 			}else{
 				if(incorrectLetters.includes(input.userinput) ||
 				   correctLetters.includes(input.userinput) ||
 				   input.userinput === " ") {
 					console.log("\nAlready Guessed or Nothing was Entered\n");
-				theLogic()
+				runLogic()
 				}else {
 					var wordCheckArray =[];
 					computerWord.userGuess(input.userinput);
@@ -118,16 +118,16 @@ function theLogic() {
 					console.log("Letters Guessed: " + incorrectLetters.join(" ") + "\n");
 
 					if(guessesLeft > 0) {
-						theLogic();
+						runLogic();
 					}else {
-						console.log("You have lost!\n");
+						console.log("YOU AIN'T NO GOOD!\n");
 					}
 				}
 			}
 
 		})
 	}else {
-	 console.log("YOU WIN!\n");	
+	 console.log("YOU'RE DA MAN!\n");	
 	}
 	function completeCheck(key) {
 		wordComplete.push(key.guessed);
@@ -148,11 +148,11 @@ function restartGame () {
 			incorrectLetters = [];
 			correctLetters = [];
 			guessesLeft = 10;
-			theLogic();
+			runLogic();
 		}else {
 			return;
 		}
 	})
-	theLogic();
+	runLogic();
 }
  	
